@@ -1,0 +1,66 @@
+.card img {
+    display : block;
+    margin : auto;
+}
+
+.card {
+    display : inline-block;
+    margin : 20px;
+    width: 320px;
+    height: 200px;
+    position : relative;
+}
+
+.card label {
+    font-weight: bold;
+}
+
+.card .front, .card .back {
+    position: absolute;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border: 2px solid;
+    border-radius: 25px;
+    box-shadow: 10px 10px 5px #888888;
+    padding : 10px;
+    width: 320px;
+    height: 200px;
+}
+
+.card .front {
+    transform: perspective(600px) rotateY(0deg);
+    -webkit-transform: perspective(600px) rotateY(0deg);
+}
+
+.card  .back {
+    transform: perspective(600px) rotateY(180deg);
+    -webkit-transform: perspective(600px) rotateY(180deg);
+}
+
+.card .flip {
+    width: inherit;
+    height: inherit;
+    transition: -webkit-transform 1s;
+    transition: transform 1s;
+}
+
+.flip > div{
+    width: inherit;
+    height: inherit;
+    transition: -webkit-transform 1s;
+    transition: transform 1s;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/*Bien faire attention au poid CSS*/
+.card .flip .flippedBack {
+    transform: perspective(600px) rotateY(360deg);
+    -webkit-transform: perspective(600px) rotateY(360deg);
+}
+
+/*Bien faire attention au poid CSS*/
+.card .flip .flippedFront {
+    transform: perspective(600px) rotateY(180deg);
+    -webkit-transform: perspective(600px) rotateY(180deg);
+}

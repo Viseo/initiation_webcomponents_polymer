@@ -1,0 +1,112 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<polymer-element name="card-component" attributes="nom poste prenom presentation experience image">
+    <template>
+        <style>
+            .card img {
+                display : block;
+                margin : auto;
+            }
+
+            .card {
+                display : inline-block;
+                margin : 20px;
+                width: 320px;
+                height: 200px;
+                position : relative;
+            }
+
+            .card label {
+                font-weight: bold;
+            }
+
+            .card .front, .card .back {
+                position: absolute;
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+                border: 2px solid;
+                border-radius: 25px;
+                box-shadow: 10px 10px 5px #888888;
+                padding : 10px;
+                width: 320px;
+                height: 200px;
+            }
+
+            .card .front {
+                transform: perspective(600px) rotateY(0deg);
+                -webkit-transform: perspective(600px) rotateY(0deg);
+            }
+
+            .card  .back {
+                transform: perspective(600px) rotateY(180deg);
+                -webkit-transform: perspective(600px) rotateY(180deg);
+            }
+
+            .card .flip {
+                width: inherit;
+                height: inherit;
+                transition: transform 1s;
+            }
+
+            .flip > div{
+                width: inherit;
+                height: inherit;
+                transition: transform 1s;
+                backface-visibility: hidden;
+                -webkit-backface-visibility: hidden;
+            }
+
+            /*Bien faire attention au poid CSS*/
+            .card .flip .flippedBack {
+                transform: perspective(600px) rotateY(360deg);
+                -webkit-transform: perspective(600px) rotateY(360deg);
+            }
+
+            /*Bien faire attention au poid CSS*/
+            .card .flip .flippedFront {
+                transform: perspective(600px) rotateY(180deg);
+                -webkit-transform: perspective(600px) rotateY(180deg);
+            }
+        </style>
+
+        <div class="card" on-click="{{flip}}">
+            <div class="flip">
+                <div class="front">
+                    <img src="{{image}}"/>
+                    <p><label>Nom : </label>{{nom}}</p>
+                    <p><label>Prénom : </label>{{prenom}}</p>
+                    <p><label>Poste : </label>{{poste}}</p>
+                    <p><label>Expèrience : </label>{{experience}}</p>
+                </div>
+                <div class="back">
+                    <p>{{presentation}}</p>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            image: "",
+            nom: "",
+            prenom: "",
+            poste: "",
+            presentation: "",
+            exeperience: "",
+            flip : function (event){
+                event = event || window.event;
+                //On toggle la classe flippedFront
+                if(!(new RegExp('flippedFront').test(' ' + this.shadowRoot.querySelector('.front').className + ' '))){
+                    this.shadowRoot.querySelector('.front').className += ' flippedFront ';
+                } else {
+                    this.shadowRoot.querySelector('.front').className = this.shadowRoot.querySelector('.front').className.replace(' flippedFront ','');
+                }
+                //On toggle la classe flippedBack
+                if(!(new RegExp('flippedBack').test(' ' + this.shadowRoot.querySelector('.back').className + ' '))){
+                    this.shadowRoot.querySelector('.back').className += ' flippedBack ';
+                } else {
+                    this.shadowRoot.querySelector('.back').className = this.shadowRoot.querySelector('.back').className.replace(' flippedBack ','');
+                }
+            }
+        });
+    </script>
+</polymer-element>
