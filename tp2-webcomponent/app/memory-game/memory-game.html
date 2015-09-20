@@ -29,7 +29,7 @@
             },
             //Ecoute l'event 'card-clicked' des composants enfants
             listeners: {
-                "card-clicked" : "check"
+                <!-- TODO : callback lors l'event des carte -->
             },
             currentId1 : "", // id de la première carte retournée en cours
             currentFamily1 : "", // famille de la première carte retournée en cours
@@ -72,58 +72,17 @@
             },
             //Fonction pour lancer une vérification de l'égalité des cartes
             check : function (event,detail) {
-                this.score = this.score + 1;
-                // Si le score modulo 2 donne 0 c'est que l'on doit faire un check sur l'ensemble des cartes
-                if(this.score % 2 == 0){
-                    this.currentId2 = detail.id;
-                    this.currentFamily2 = detail.family;
-                    var _this = this;
-                    //On bloque tout évènement des cartes pour avoir le temps de retourner les cartes si elles ne
-                    //sont pas identiques
-                    this.disableCard(true);
-                    setTimeout(function(){
-                        //Si elle ne sont pas identique
-                        if(_this.currentFamily1 != _this.currentFamily2){
-                            //On demande au deux cartes retournée précédemment de se cacher
-                            var dataSend = { id : _this.currentId1 };
-                            _this.fire("iron-signal", {name: 'flip-back', data: dataSend} );
-                            dataSend ={ id : _this.currentId2 };
-                            _this.fire("iron-signal", {name: 'flip-back', data: dataSend} );
-                        } else {
-                            _this.flipCount = _this.flipCount +2;
-                            //Si toutes les cartes sont retournées on affiche le bandeau de fin du jeu
-                            if(_this.flipCount == _this.numberoffamily * 2) {
-                                _this.textResult = "Vous avez réussi en "+_this.score+" coup(s).";
-                                Polymer.dom(_this.root).querySelector('#toast').show();
-                            }
-                        }
-                        //On réinitialise les variables
-                        _this.disableCard(false);
-                    }, 1000);
-                } else {
-                    // Stockage de l'id de la carte courante pour la comparer avec la prochaine carte retounée
-                    this.currentId1 = detail.id;
-                    this.currentFamily1 = detail.family;
-                }
+                <!-- TODO : Comptez le nombre de coups joués -->
+                <!-- TODO : check les deux cartes retourné, les retourne si elles sont différentes -->
+                <!-- TODO : Affichez le toast au retournement de toutes les cartes -->
             },
             //fonction pour recommencer le jeu et repartir de 0
             retry : function(){
-                this.fire("flip");
-                this.score = 0;
-                this.flipCount = 0;
-                var game =Polymer.dom(this.root).querySelector('#game');
-                while(game.childElementCount > 0) {
-                    game.removeChild(game.children[0]);
-                }
-                this.ready();
-                Polymer.dom(this.root).querySelector('#toast').hide();
+                <!-- TODO : Remise à zéro du jeu -->
             },
             //fonction pour bloquer les évènements sur les cartes
             disableCard : function (bool){
-                var game = Polymer.dom(this.root).querySelector('#game');
-                for(var i = 0 ; i<game.childElementCount ; i++){
-                    game.children[i].disabled=bool;
-                }
+                <!-- TODO : bloquez les cartes pour qu'elles ne puissent pas être retournées -->
             }
 
         });

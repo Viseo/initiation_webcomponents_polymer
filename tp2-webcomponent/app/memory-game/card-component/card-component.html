@@ -5,8 +5,9 @@
 <dom-module id="card-component">
     <link rel="import" type="css" href="style.css">
     <template>
-        <iron-signals on-iron-signal-flip-back="flipBack"></iron-signals>
-        <iron-signals on-iron-signal-flip="flip"></iron-signals>
+        <!-- TODO : écoute des signaux iron-signal provenant d'un autre composant -->
+        <iron-signals on-iron-signal...></iron-signals>
+        <iron-signals on-iron-signal...></iron-signals>
         <!-- Notre carte lance la fonction flip sur l'évènement click-->
         <div class="card" on-click="click">
             <div class="flip">
@@ -33,8 +34,8 @@
                 this.family = family;
                 Polymer.dom(this.root).querySelector('.front').style.backgroundColor = backgroundColor;
             },
-            id : "",
-            disabled : false,
+            id : "", //identifiant unique de la carte
+            disabled : false, // permet de savoir si la carte est déja retournée ou non
             //évènement à la création du composant
             created: function() {
                 //Initialisation d'un id unique
@@ -42,19 +43,11 @@
             },
             // fonction lors du clic sur la carte
             click : function (event){
-                // si le booléen disabled est à false et que la carte n'est pas encore retourné on la retourne
-                if(!this.disabled && !(Polymer.dom(this.root).querySelector('.front').className.indexOf('flippedFront')>-1)){
-                    this.flip(event);
-                    //On lance un évènement "check" pour donner les caractéristiques de la carte retounée
-                    var dataSend ={ id : this.id, family : this.family  };
-                    this.fire("card-clicked", dataSend );
-                }
+                <!-- TODO : retournement de la carte et envoi d'un event au composant parent-->
             },
             //fonction pour cacher la carte
             flipBack : function (event, detail) {
-                if(this.id == detail.id) {
-                    this.flip(event);
-                }
+                <!-- TODO : retournement de la carte en face arrière-->
             },
             //fonction pour faire un toggle de la carte
             flip : function (event) {

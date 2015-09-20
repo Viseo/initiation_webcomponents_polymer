@@ -4,18 +4,7 @@
     <link rel="import" type="css" href="style.css">
     <template>
         <div class="card" on-click="flip">
-            <div class="flip">
-                <div class="front">
-                    <img src="{{image}}"/>
-                    <p><label>Nom : </label>{{nom}}</p>
-                    <p><label>Prénom : </label>{{prenom}}</p>
-                    <p><label>Poste : </label>{{poste}}</p>
-                    <p><label>Expèrience : </label>{{experience}}</p>
-                </div>
-                <div class="back">
-                    <p>{{presentation}}</p>
-                </div>
-            </div>
+            <!-- TODO : code html de la carte -->
         </div>
     </template>
 
@@ -27,28 +16,13 @@
                     type : String,
                     value : ""
                 },
-                prenom: {
-                    type : String,
-                    value : ""
-                },
-                presentation:{
-                    type : String,
-                    value : ""
-                },
-                experience:{
-                    type : String,
-                    value : ""
-                },
-                image:{
-                    type : String,
-                    value : ""
-                }
+                <!-- TODO ajoutez les attributs manquants -->
             },
             flip : function (event){
                 //On toggle la classe flippedFront
-                Polymer.dom(this.root).querySelector('.front').classList.toggle('flippedFront');
+                <!-- TODO : toggle de la classe flippedFront -->
                 //On toggle la classe flippedBack
-                Polymer.dom(this.root).querySelector('.back').classList.toggle('flippedBack');
+                <!-- TODO : toggle de la classe flippedBack -->
             }
         });
     </script>
