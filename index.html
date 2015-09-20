@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="enonce/index.css">
+    <title>TP Inititation Webcomponents/Polymer</title>
+</head>
+<body>
+<h1>TP Inititation Webcomponents/Polymer</h1>
+
+    <section id="sommaire">
+        <h2>Sommaire</h2>
+        <ul>
+            <li><a href="#postedetravail">Votre poste de travail</a></li>
+            <ul>
+                <li><a href="#environnement">Environnement système</a></li>
+                <ul>
+                    <li><a href="#git">Git</a></li>
+                    <li><a href="#npm">NodeJS / NPM</a></li>
+                </ul>
+                <li><a href="#edi">Environnement de développement</a></li>
+                <li><a href="#recuperer">Récupérer les TPs / exercices</a></li>
+            </ul>
+            <li><a href="#preparation">Avant de réaliser un exercice</a></li>
+            <li>
+                <a href="#enonce">Enoncé</a>
+                <ul>
+                    <li><a href="#ossature">Ossature du projet</a></li>
+                    <li><a href="#tp1">TP 1</a></li>
+                    <li><a href="#tp2">TP 2</a></li>
+                </ul>
+            </li>
+        </ul>
+        <img src="enonce/webcomponents.png"/>
+        <img src="enonce/polymer.png"/>
+    </section>
+    <section id="postedetravail">
+        <h2>Votre poste de travail</h2>
+        <section id="environnement">
+            <h3>Environnement système</h3>
+            Afin de réaliser ces divers TPs / exercices, vous aurez besoin de vous assurer que votre poste a bien été configuré.
+            En effet, nous allons avoir besoin d’utiliser au sein de la formation les outils suivants :
+            <ul>
+                <li>Git</li>
+            	<li>NodeJs / NPM</li>
+                <li>Chrome / Firefox 28 / Internet Explorer 11 / Safari 8</li>
+            </ul>
+            <section id="git">
+                <h4>Git</h4>
+                Tout d’abord, nous allons installer Git. Pour savoir si vous l’avez, ouvrez un shell et tapez : <br>
+                <div class="commande"> > git</div>
+                Si le shell vous dit que la commande est inconnue, alors il va falloir l’installer. Dirigez-vous pour ce faire sur le site http://git-scm.com/download/win qui lancera le téléchargement pour Windows.
+                Suivez les écrans d’installation pas-à-pas et lorsque vous serez sur l’écran « Adjusting your PATH environment », sélectionnez « Use Git from the Windows command prompt » :
+                <img id="gitsetup" src="enonce/gitsetup.png"/>
+                Finissez la procédure d’installation. Une fois celle-ci terminée, relancez un shell, tapez de nouveau la commande que nous avons vue. Normalement, l’erreur indiquant que la commande est inconnue ne devrez plus s’afficher.
+            </section>
+            <section id="npm">
+                <h4>NodeJs / NPM</h4>
+                NodeJs est un outil permettant d’exécuter du JavaScript côté serveur, mais également de récupérer des outils utiles pour nos projets (via NPM, qu’il intègre).
+                Pour savoir si vous avez NodeJs et NPM installer correctement, tapez d’abord la commande dans un shell :
+                <div class="commande"> > node </div>
+                Puis
+                <div class="commande"> > npm </div>
+                Si dans l’un des deux cas, vous voyez une erreur disant que la commande est inconnue, alors télécharger l’installeur pour Windows : <a href="http://nodejs.org/download/">http://nodejs.org/download/</a>
+                Une fois cela fait, lancer l’installeur. Une fois la procédure finie, les commandes devraient être reconnues
+            </section>
+        </section>
+        <section id="edi">
+            <h3>Environnement de développement</h3>
+            Pour réaliser ces TPs, vous pouvez si vous le souhaitez utiliser un simple bloc-note, un NotePad++. Néanmoins, nous vous conseillons d’installer les IDEs suivants :
+            <ul>
+               <li>WebStorm : <a href="http://www.jetbrains.com/webstorm/download/">http://www.jetbrains.com/webstorm/download/ (recommandé)</a></li>
+               <li>Visual studio 2013 : <a href="http://www.microsoft.com/fr-fr/download/details.aspx?id=40747">http://www.microsoft.com/fr-fr/download/details.aspx?id=40747</a></li>
+            </ul>
+        </section>
+        <section id="recuperer">
+            <h3>Récupérer les TPs / exercices</h3>
+            Si les TPs / exercices ne sont pas présents sur votre poste, il faudra alors taper la ligne de commande suivante :
+            <div class="commande">git clone git@polesviseo.cloudapp.net:initiation_webcomponents_polymer.git </div>
+            Si un login / password vous est demandé, appelez le formateur afin qu’il les saisisse.<br>
+            Vous aurez alors accès aux exercices.
+        </section>
+    </section>
+    <section id="preparation">
+        <h2>Avant de réaliser un exercice</h2>
+        Il faut savoir que vous ne pouvez-vous pas lancer directement dans les exercices. Il y a une manœuvre à faire avant, car comme pour un projet Maven, nous allons devoir télécharger des dépendances afin que notre projet fonctionne.
+        Pour cela, dirigez-vous vers un répertoire d’exercice et tapez ensuite la ligne de commande suivante :
+        <div class="commande"> npm install </div>
+        Là, vous allez voir que la commande npm va télécharger plein de modules pour gérer correctement notre TP.
+        Une fois finie, npm vous liste tout ce qui a été installé.
+        Si c’est le cas, vous pouvez alors taper la commande suivante :
+        <div class="commande"> grunt </div>
+        Cela va vous lancer un serveur pour afficher le site Web associé à l’exercice.
+        Et cela ouvre également par défaut dans votre navigateur par défaut l’url <a href="http://localhost:9000/">http://localhost:9000/</a> et vous afficher le site Web de l’exercice.
+        A chaque fois que vous modifierez le code HTML / JavaScript de l’exercice, votre page sera actualisée avec les modifications
+    </section>
+    <section id="enonce">
+        <h2>Enoncés</h2>
+        <section id="ossature">
+            <h3>Ossature du projet</h3>
+            Le projet que vous allez réaliser contient deux tps. Un premier tp pour prendre en main l’architecture Polymer et un deuxième pour utiliser des composants Polymer. Le but final est de créer le jeu « Memory ».
+            <br><img src="enonce/ossature.png"/>
+            <br>Un exercice correspond à un tp.
+        </section>
+        <section id="tp1">
+            <h3>TP1</h3>
+            Le but de l’exercice va être ici de vous familiariser avec les bases des webcomponents avec Polymer. De ce fait :
+            <ul>
+                <li>Commencez par lancer l’application</li>
+                <ul>
+                    <li>A l’adresse <a href="http://localhost:9000/index.html">http://localhost:9000/index.html</a> vous trouverez le sujet du tp écrit en pur JavaScript.</li>
+                    <li>Analysez le code html de la page.</li>
+                </ul>
+                <li>Modifiez le fichier « card-component.html » de façon à avoir le même résultat :</li>
+                <ul>
+                    <li>Pour cela, définissez le code HTML du composant ainsi que ses attributs. <b>Information importante : Polymer fonctionne avec le data-binding, les attributs peuvent directement être utilisés dans le code Html par ce procédé ({{monAttribut}})</b></li>
+                    <li>Importez le composant dans le fichier « indexComponents.html ». Vous pouvez regarder le résultat à l’adresse <a href="http://localhost:9000/indexComponents.html">http://localhost:9000/indexComponents.html</a>.</li>
+                    <li>Reste à développer le retournement de la carte. Développez le corps de la fonction « flip ». <b>Attention, pas de JQuery, il faut utiliser la nouveauté de polymer : Polymer.dom(this.root).querySelector.</b></li>
+
+                </ul>
+            </ul>
+        </section>
+        <section id="tp2">
+            <h3>TP2</h3>
+            Le but de l’exercice ici va être d’utiliser des composants Polymer dans une application un peu plus complexe. A la fin de ce tp, vous saurez faire communiquer des composants Polymer entre eux. Le but sera de réaliser le jeu « memory ».
+            <br>
+            Voici un schéma représentant les différentes entités du jeu ainsi que les échanges entre ces composants :
+            <img id="architecture" src="enonce/architecture.png"/>
+            Lors du clic sur une carte, une fonction est exécutée qui remonte un évènement à l'élément "memory-game" avec les caractéristiques de la carte.</br>
+            Toutes les deux cartes, le composant "check" les cartes pour les retourner dans le cas où elles ne sont pas de la même famille.</br>
+            Lorsque toutes les cartes sont retournées un "toast" apparait pour donner le score au joueur ainsi que la possibilité de recommencer.
+            <ul>
+                <li>Analysez les différents fichiers du projet et définissez leurs utilités.</li>
+                <li>Identifiez les composants Polymer utilisés</li>
+                <li>Faites en sorte que lors d’un clic sur une carte celle-ci se retourne (Utilisez un event Javascript basique)</li>
+                <li>Communication entre composants</li>
+                <ul>
+                    <li>Allez sur le site de <a target="_blank"href="https://elements.polymer-project.org/browse">https://elements.polymer-project.org/browse</a> pour voir à quoi sert le composant "iron-signals" et comment l’utiliser.</li>
+                    <li>Faites-en sorte que le composant « memory-game » compte le nombre de coups joués.</li>
+                    <li>Ajoutez maintenant la vérification que les deux cartes retournées soient identiques. Pour cela vous utiliserez la fonction « check » du composant « memory-game » qui vérifie que la famille de la première carte retournée et la même que la seconde.</li>
+                    <li>Renvoyez la réponse du « check » de la carte et retournez les deux cartes si elles ne sont pas identiques (Utilisez le composant iron-signals).</li>
+                    <li>Faites en sorte que l’on ne puisse pas retourner une carte déjà retournée.</li>
+                </ul>
+                <li>Lorsque toutes les cartes sont retournées afficher le composant « paper-toast ». Puis faites en sorte que lorsque l’utilisateur clique sur « retry », le jeu recommence.</li>
+                <li>Trouvez un moyen de voir l’effet de retournement des cartes lorsqu’elles ne sont pas  de même famille.</li>
+            </ul>
+            <span style="font-weight: bold">BONUS : Customisez l’affichage du score sous forme de web components</span>
+        </section>
+    </section>
+</body>
+</html>

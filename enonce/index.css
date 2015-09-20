@@ -1,0 +1,60 @@
+h1 {
+    border : solid black;
+    color : cornflowerblue;
+    text-align: center;
+}
+
+h2 {
+    border : solid cornflowerblue;
+    background-color : cornflowerblue;
+    color : white;
+}
+
+h3 {
+    border : solid deepskyblue;
+    background-color : deepskyblue;
+}
+
+h4 {
+    border-bottom: solid cornflowerblue;
+    color : cornflowerblue;
+}
+
+.commande {
+    border : solid 1px black;
+    padding-left: 10px;
+    background-color: #ECE9E9;
+    margin : 10px;
+}
+
+#sommaire img, #sommaire > ul{
+    display: inline-block;
+}
+
+#sommaire img {
+    width : 100px;
+    height: 100px;
+    margin : 30px;
+}
+
+#sommaire ul {
+    list-style-type: upper-roman;
+}
+
+#sommaire ul ul {
+    list-style-type: decimal;
+}
+
+#sommaire ul ul ul{
+    list-style-type: lower-latin;
+}
+
+#gitsetup, #architecture, #ossature img {
+    display : block;
+    margin-left: auto;
+    margin-right: auto;
+    width : 300px;
+    height : 300px;
+    margin-top : 20px;
+    margin-bottom: 20px;
+}

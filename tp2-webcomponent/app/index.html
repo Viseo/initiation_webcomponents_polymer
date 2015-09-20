@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <title>TP WebComponent</title>
     <!-- Import du polyfill -->
-    <script src="bower_components/webcomponentsjs/webcomponents.js"></script>
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
 
     <!-- Import de notre element -->
-    <link rel="import" href="./memory-game/memory-game.html">
+    <link rel="import" href="memory-game/memory-game.html">
+
 </head>
 <body>
-    <memory-game differentCardCount="3"/>
+    <memory-game numberoffamily="3"></memory-game>
 </body>
 </html>

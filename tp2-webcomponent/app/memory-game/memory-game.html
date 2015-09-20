@@ -1,34 +1,14 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <link rel="import" href="./card-component/card-component.html">
-<link rel="import" href="../bower_components/core-elements/core-elements.html">
-<polymer-element name="memory-game" attributes="differentCardCount">
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<dom-module id="memory-game">
+    <link rel="import" type="css" href="style.css">
     <template>
-        <style>
-            div#score {
-                margin : auto;
-                width :  300px;
-                display : block;
-            }
-            paper-toast {
-                bottom: 0;
-                left: 0;
-                width: 100%;
-            }
-            paper-toast div {
-                color : white;
-                text-decoration: underline;
-            }
-        </style>
-
-        <!-- A l'écoute des évènement -->
-        <core-signals on-core-signal-check="{{check}}"></core-signals>
-        <core-signals on-core-signal-check-card-response="{{checkResponse}}"></core-signals>
-
         <div id="score">
             <label>Nombre de coup : </label> <span>{{score}}</span>
         </div>
-        <paper-toast id="toast" text="Vous avez réussi en {{score}} coups." duration="1000000" autoCloseDisabled="true">
-            <div on-tap="{{retry}}">Rejouer</div>
+        <paper-toast id="toast" text="{{textResult}}" duration="1000000">
+            <div on-tap="retry">Rejouer</div>
         </paper-toast>
 
         <div id="game"></div>
@@ -36,38 +16,49 @@
 
     <script>
         Polymer({
-            score : 0,
-            nbResponse : 0,
-            success : false,
-            currentId1 : "",
-            currentId2 : "",
-            flipCount : 0,
-            differentCardCount : 0,
+            is : "memory-game",
+            properties : {
+                numberoffamily : {
+                    type : Number,
+                    value : 0
+                },
+                score : {
+                    type : Number,
+                    value : 0
+                }
+            },
+            //Ecoute l'event 'card-clicked' des composants enfants
+            listeners: {
+                "card-clicked" : "check"
+            },
+            currentId1 : "", // id de la première carte retournée en cours
+            currentFamily1 : "", // famille de la première carte retournée en cours
+            currentId2 : "", // id de la deuxième carte retournée en cours
+            currentFamily2 : "", // famille de la deuxième carte retournée en cours
+            flipCount : 0, // nombre de carte retournée
+            score : 0, // nombre de coup joué
+            textResult :"", // texte affiché à l'affichage du paper-toast
             //Evènement lorsque le composant est prêt
             ready: function() {
                 var values = [];
                 //Génération aléatoires des couleurs des cartes
-                for (i = 0; i < this.differentCardCount; i++) {
+                for (i = 0; i < this.numberoffamily; i++) {
                     var color = this.randomColor();
-                    values.push({type : i, color : color});
-                    values.push({type : i, color : color});
+                    values.push({family : i, color : color});
+                    values.push({family : i, color : color});
                 }
 
                 //On mélange le tableau
                 for (var i = values.length-1; i >=0; i--) {
-
                     var randomIndex = Math.floor(Math.random()*(i+1));
                     var itemAtIndex = values[randomIndex];
-
                     values[randomIndex] = values[i];
                     values[i] = itemAtIndex;
                 }
                 //création des carte et ajout au shadow DOM
                 values.forEach(function(value){
-                    var card = new CardComponent();
-                    card.type=value.type;
-                    card.background = value.color;
-                    this.shadowRoot.querySelector('#game').appendChild(card);
+                    var card = new CardComponent(value.family, value.color);
+                    Polymer.dom(this.root).querySelector('#game').appendChild(card);
                 },this);
             },
             //Fonction pour générer une couleur aléatoire
@@ -85,63 +76,51 @@
                 // Si le score modulo 2 donne 0 c'est que l'on doit faire un check sur l'ensemble des cartes
                 if(this.score % 2 == 0){
                     this.currentId2 = detail.id;
-                    //Envoi des informations de la carte retournée pour checker si les deux cartes sont identiques
-                    var dataSend ={ id :this.currentId1, type : detail.type  };
-                    this.fire("core-signal",{ name : 'check-card',data : dataSend });
-                } else {
-                    // Stockage de l'id de la carte courante pour la comparer avec la prochaine carte retounée
-                    this.currentId1 = detail.id;
-                }
-            },
-            //Fonction exécutée lorsqu'une carte renvoie leur réponse pour dire si le type est identique
-            checkResponse : function(event,detail){
-                this.nbResponse++;
-                // Si au moins une carte répond "ok" c'est que la carte retounée précédemment est de même type
-                if(!this.success && detail.ok){
-                    this.success = true;
-                }
-                //Si on a eu la réponse de toutes les cartes
-                if(this.nbResponse == this.differentCardCount * 2){
+                    this.currentFamily2 = detail.family;
                     var _this = this;
                     //On bloque tout évènement des cartes pour avoir le temps de retourner les cartes si elles ne
                     //sont pas identiques
                     this.disableCard(true);
                     setTimeout(function(){
                         //Si elle ne sont pas identique
-                        if(!_this.success){
+                        if(_this.currentFamily1 != _this.currentFamily2){
                             //On demande au deux cartes retournée précédemment de se cacher
                             var dataSend = { id : _this.currentId1 };
-                            _this.fire("core-signal",{ name : 'flip-back',data : dataSend });
+                            _this.fire("iron-signal", {name: 'flip-back', data: dataSend} );
                             dataSend ={ id : _this.currentId2 };
-                            _this.fire("core-signal",{ name : 'flip-back',data : dataSend });
+                            _this.fire("iron-signal", {name: 'flip-back', data: dataSend} );
                         } else {
                             _this.flipCount = _this.flipCount +2;
                             //Si toutes les cartes sont retournées on affiche le bandeau de fin du jeu
-                            if(_this.flipCount == _this.differentCardCount * 2) {
-                                _this.shadowRoot.querySelector('#toast').show();
+                            if(_this.flipCount == _this.numberoffamily * 2) {
+                                _this.textResult = "Vous avez réussi en "+_this.score+" coup(s).";
+                                Polymer.dom(_this.root).querySelector('#toast').show();
                             }
                         }
                         //On réinitialise les variables
-                        _this.success = false;
-                        _this.nbResponse = 0;
                         _this.disableCard(false);
                     }, 1000);
+                } else {
+                    // Stockage de l'id de la carte courante pour la comparer avec la prochaine carte retounée
+                    this.currentId1 = detail.id;
+                    this.currentFamily1 = detail.family;
                 }
             },
             //fonction pour recommencer le jeu et repartir de 0
             retry : function(){
-                this.fire("core-signal",{ name : 'flip-all' });
+                this.fire("flip");
                 this.score = 0;
                 this.flipCount = 0;
-                var game =this.shadowRoot.querySelector('#game');
+                var game =Polymer.dom(this.root).querySelector('#game');
                 while(game.childElementCount > 0) {
                     game.removeChild(game.children[0]);
                 }
                 this.ready();
+                Polymer.dom(this.root).querySelector('#toast').hide();
             },
-            //fonction pour bloquer les évènements sur le cartes
+            //fonction pour bloquer les évènements sur les cartes
             disableCard : function (bool){
-                var game = this.shadowRoot.querySelector('#game');
+                var game = Polymer.dom(this.root).querySelector('#game');
                 for(var i = 0 ; i<game.childElementCount ; i++){
                     game.children[i].disabled=bool;
                 }
@@ -149,4 +128,4 @@
 
         });
     </script>
-</polymer-element>
+</dom-module>

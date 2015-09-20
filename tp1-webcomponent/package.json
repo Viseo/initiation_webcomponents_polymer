@@ -27,7 +27,6 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "preinstall": "npm install -g grunt-cli",
     "postinstall": "node_modules/.bin/bower install"
   }
 }

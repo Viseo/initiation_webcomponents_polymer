@@ -1,162 +1,68 @@
 <link rel="import" href="../../bower_components/polymer/polymer.html">
-<link rel="import" href="../../bower_components/paper-elements/paper-elements.html">
-<link rel="import" href="../../bower_components/core-elements/core-elements.html">
-<polymer-element name="card-component" attributes="type" constructor="CardComponent">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-ripple/paper-ripple.html">
+<link rel="import" href="../../bower_components/iron-signals/iron-signals.html">
+<dom-module id="card-component">
+    <link rel="import" type="css" href="style.css">
     <template>
-        <style>
-            .card {
-                display : inline-block;
-                margin : 20px;
-                width: 50px;
-                height: 50px;
-                position : relative;
-            }
-
-            .card label {
-                font-weight: bold;
-            }
-
-            .card .front, .card .back {
-                position: absolute;
-                backface-visibility: hidden;
-                -webkit-backface-visibility: hidden;
-                border: 2px solid;
-                border-radius: 25px;
-                padding : 10px;
-                width: 50px;
-                height: 50px;
-            }
-
-            .card .front {
-                transform: perspective(600px) rotateY(180deg);
-                -webkit-transform: perspective(600px) rotateY(180deg);
-            }
-            .card .front p{
-                margin : auto;
-                width: 50px;
-                height: 50px;
-                text-align: center;
-                line-height:50px;
-                font-family: "Times New Roman", Times, serif;
-                font-size: 40px;
-                text-shadow: white 1px 1px,white -1px 1px,white -1px -1px, white 1px -1px;
-            }
-
-            .card  .back {
-                transform: perspective(600px) rotateY(0deg);
-                -webkit-transform: perspective(600px) rotateY(0deg);
-                background-image : url("p-logo.svg");
-                background-repeat: no-repeat;
-                background-position: center;
-                background-size: 100%;
-            }
-
-            .card .flip {
-                width: inherit;
-                height: inherit;
-                transition: transform 1s;
-                -webkit-transition: transform 1s;
-            }
-
-            .flip > paper-shadow{
-                width: inherit;
-                height: inherit;
-                transition: transform 1s;
-                -webkit-transition: transform 1s;
-                backface-visibility: hidden;
-                -webkit-backface-visibility: hidden;
-            }
-
-            /*Bien faire attention au poid CSS*/
-            .card .flip .flippedBack {
-                transform: perspective(600px) rotateY(180deg);
-                -webkit-transform: perspective(600px) rotateY(180deg);
-            }
-
-            /*Bien faire attention au poid CSS*/
-            .card .flip .flippedFront {
-                transform: perspective(600px) rotateY(360deg);
-                -webkit-transform: perspective(600px) rotateY(360deg);
-            }
-
-            paper-ripple {
-                color: blue;
-            }
-
-        </style>
-
+        <iron-signals on-iron-signal-flip-back="flipBack"></iron-signals>
+        <iron-signals on-iron-signal-flip="flip"></iron-signals>
         <!-- Notre carte lance la fonction flip sur l'évènement click-->
-        <div class="card" on-click="{{flip}}">
-            <!-- A l'écoute des différents évènements -->
-            <core-signals on-core-signal-check-card="{{check}}"></core-signals>
-            <core-signals on-core-signal-flip-back="{{flipBack}}"></core-signals>
-            <core-signals on-core-signal-flip-all="{{flipAll}}"></core-signals>
+        <div class="card" on-click="click">
             <div class="flip">
-                <paper-shadow z="3"  class="front" style="background-color: {{background}}">
-                    <paper-ripple fit></paper-ripple>
-                    <p>{{type}}</p>
-                </paper-shadow>
-                <paper-shadow z="3"  class="back">
-                    <paper-ripple fit></paper-ripple>
-                </paper-shadow>
+                <paper-material elevation="3"  class="front">
+                    <paper-ripple></paper-ripple>
+                    <p>{{family}}</p>
+                </paper-material>
+                <paper-material elevation="3"  class="back">
+                    <paper-ripple></paper-ripple>
+                </paper-material>
             </div>
         </div>
     </template>
 
     <script>
-        Polymer({
-            type : "",
+        var CardComponent = Polymer({
+            is : "card-component",
+            properties : {
+                family : {
+                    value : ""
+                }
+            },
+            factoryImpl: function(family, backgroundColor) {
+                this.family = family;
+                Polymer.dom(this.root).querySelector('.front').style.backgroundColor = backgroundColor;
+            },
             id : "",
-            background : "",
             disabled : false,
             //évènement à la création du composant
             created: function() {
                 //Initialisation d'un id unique
                 this.id = Math.random();
             },
-            // fonction pour tourner la carte
-            flip : function (event){
+            // fonction lors du clic sur la carte
+            click : function (event){
                 // si le booléen disabled est à false et que la carte n'est pas encore retourné on la retourne
-                if(!this.disabled && !(this.shadowRoot.querySelector('.front').className.indexOf('flippedFront')>-1)){
-                    this.flipAll(event);
+                if(!this.disabled && !(Polymer.dom(this.root).querySelector('.front').className.indexOf('flippedFront')>-1)){
+                    this.flip(event);
                     //On lance un évènement "check" pour donner les caractéristiques de la carte retounée
-                    var dataSend ={ id : this.id, type : this.type  };
-                    this.fire("core-signal",{ name : 'check',data : dataSend });
+                    var dataSend ={ id : this.id, family : this.family  };
+                    this.fire("card-clicked", dataSend );
                 }
-            },
-            //fonction pour vérifier si la carte est de même type
-            check : function (event,detail) {
-                var result = false;
-                //Si c'est le même id c'est que c'est la carte concernée par le message
-                if(this.id == detail.id){
-                    if(this.type == detail.type){
-                        result = true;
-                    }
-                }
-                var dataSend ={ id : this.id, ok : result  };
-                this.fire("core-signal",{ name : 'check-card-response', data : dataSend });
             },
             //fonction pour cacher la carte
             flipBack : function (event, detail) {
                 if(this.id == detail.id) {
-                    this.flipAll(event);
+                    this.flip(event);
                 }
             },
             //fonction pour faire un toggle de la carte
-            flipAll : function (event) {
+            flip : function (event) {
                 //On toggle la classe flippedFront
-                if(!(new RegExp('flippedFront').test(' ' + this.shadowRoot.querySelector('.front').className + ' '))){
-                    this.shadowRoot.querySelector('.front').className += ' flippedFront ';
-                } else {
-                    this.shadowRoot.querySelector('.front').className = this.shadowRoot.querySelector('.front').className.replace(' flippedFront ','');
-                }
+                Polymer.dom(this.root).querySelector('.front').classList.toggle('flippedFront');
                 //On toggle la classe flippedBack
-                if(!(new RegExp('flippedBack').test(' ' + this.shadowRoot.querySelector('.back').className + ' '))){
-                    this.shadowRoot.querySelector('.back').className += ' flippedBack ';
-                } else {
-                    this.shadowRoot.querySelector('.back').className = this.shadowRoot.querySelector('.back').className.replace(' flippedBack ','');
-                }
+                Polymer.dom(this.root).querySelector('.back').classList.toggle('flippedBack');
             }
         });
     </script>
-</polymer-element>
+</dom-module>

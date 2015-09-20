@@ -1,0 +1,78 @@
+.card {
+    display : inline-block;
+    margin : 20px;
+    width: 50px;
+    height: 50px;
+    position : relative;
+}
+
+.card label {
+    font-weight: bold;
+}
+
+.card .front, .card .back {
+    position: absolute;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border: 2px solid;
+    border-radius: 25px;
+    padding : 10px;
+    width: 50px;
+    height: 50px;
+}
+
+.card .front {
+    transform: perspective(600px) rotateY(180deg);
+    -webkit-transform: perspective(600px) rotateY(180deg);
+}
+.card .front p{
+    margin : auto;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+    line-height:50px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 40px;
+    text-shadow: white 1px 1px,white -1px 1px,white -1px -1px, white 1px -1px;
+}
+
+.card  .back {
+    transform: perspective(600px) rotateY(0deg);
+    -webkit-transform: perspective(600px) rotateY(0deg);
+    background-image : url("p-logo.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+}
+
+.card .flip {
+    width: inherit;
+    height: inherit;
+    transition: transform 1s;
+    -webkit-transition: transform 1s;
+}
+
+.flip > paper-shadow{
+    width: inherit;
+    height: inherit;
+    transition: transform 1s;
+    -webkit-transition: transform 1s;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+}
+
+/*Bien faire attention au poid CSS*/
+.card .flip .flippedBack {
+    transform: perspective(600px) rotateY(180deg);
+    -webkit-transform: perspective(600px) rotateY(180deg);
+}
+
+/*Bien faire attention au poid CSS*/
+.card .flip .flippedFront {
+    transform: perspective(600px) rotateY(360deg);
+    -webkit-transform: perspective(600px) rotateY(360deg);
+}
+
+paper-ripple {
+    color: blue;
+}
