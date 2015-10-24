@@ -72,7 +72,7 @@
             },
             //Fonction pour lancer une vérification de l'égalité des cartes
             check : function (event,detail) {
-                this.score = this.score + 1;
+                this.score++;
                 // Si le score modulo 2 donne 0 c'est que l'on doit faire un check sur l'ensemble des cartes
                 if(this.score % 2 == 0){
                     this.currentId2 = detail.id;
